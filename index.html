@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paradise Billiards</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;scroll-behavior:smooth;font-family:'Poppins',sans-serif}
+body{background:#080808;color:#fff;overflow-x:hidden}
+nav{position:fixed;top:0;left:0;width:100%;display:flex;justify-content:space-between;align-items:center;padding:20px 8%;background:rgba(0,0,0,.72);backdrop-filter:blur(12px);z-index:1000;border-bottom:1px solid rgba(255,255,255,.08)}
+.logo{font-size:32px;font-weight:700;color:#d4af37;letter-spacing:3px}
+nav ul{display:flex;gap:35px;list-style:none}
+nav a{color:white;text-decoration:none;font-size:15px;transition:.3s}
+nav a:hover{color:#d4af37}
+.hero{min-height:100vh;background:linear-gradient(rgba(0,0,0,.65),rgba(0,0,0,.75)),url("https://images.unsplash.com/photo-1511882150382-421056c89033?auto=format&fit=crop&w=1800&q=80");background-size:cover;background-position:center;display:flex;justify-content:center;align-items:center;text-align:center;padding:90px 20px 20px}
+.hero h1{font-size:clamp(45px,8vw,90px);color:#d4af37;text-shadow:0 0 25px rgba(212,175,55,.5)}
+.hero p{font-size:24px;margin:25px 0;color:#ddd}
+.hero a,.contact a{display:inline-block;padding:16px 38px;background:#d4af37;color:#000;font-weight:bold;text-decoration:none;border-radius:50px;transition:.35s}
+.hero a:hover,.contact a:hover{transform:translateY(-5px);background:white}
+section.content-section{padding:100px 8%}
+.section-title{text-align:center;font-size:42px;margin-bottom:60px;color:#d4af37}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;padding:80px 8%;background:#080808}
+.card{background:#161616;border-radius:20px;overflow:hidden;transition:.35s;box-shadow:0 15px 35px rgba(0,0,0,.3)}
+.card:hover{transform:translateY(-8px)}
+.card img{width:100%;height:220px;object-fit:cover}
+.card h3{padding:20px;font-size:24px}
+.card p{padding:0 20px 25px;color:#bbb;line-height:1.8}
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:25px}
+.gallery img{width:100%;height:280px;object-fit:cover;border-radius:20px;transition:.4s}
+.gallery img:hover{transform:scale(1.03);box-shadow:0 0 30px rgba(212,175,55,.35)}
+.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:25px}
+.feature{background:#151515;padding:35px 25px;border-radius:20px;text-align:center;border:1px solid rgba(212,175,55,.15);transition:.3s}
+.feature:hover{border-color:#d4af37;transform:translateY(-8px)}
+.feature h3{color:#d4af37;margin-bottom:15px;font-size:22px}
+.feature p{color:#ccc;line-height:1.8}
+.contact{text-align:center;background:#111}
+.contact p{color:#ddd}
+.contact a{margin-top:25px}
+footer{background:#000;text-align:center;padding:40px 20px;color:#aaa}
+.whatsapp{position:fixed;right:25px;bottom:25px;width:60px;height:60px;background:#25d366;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;color:white;text-decoration:none;z-index:999;box-shadow:0 5px 20px rgba(0,0,0,.5)}
+
+/* INTERACTIVE 3D TABLE */
+#paradise-3d{position:relative;width:100%;overflow:hidden;background:radial-gradient(ellipse at 50% 40%,#29251e 0%,#101010 48%,#050505 100%);border-top:1px solid #8b7448;border-bottom:1px solid #8b7448;color:#d8c18c}
+#paradise-3d *{box-sizing:border-box}
+#paradise-3d .p3d-heading{position:absolute;z-index:2;top:20px;left:22px;display:flex;align-items:center;gap:12px;pointer-events:none}
+#paradise-3d .p3d-logo{width:42px;height:42px;border:1px solid #c6a45b;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-size:27px;color:#d7b76b}
+#paradise-3d .p3d-name{font-size:20px;letter-spacing:5px;font-weight:600}
+#paradise-3d .p3d-sub{font-size:9px;letter-spacing:3px;margin-top:5px;color:#b5a17b}
+#p3d-view{width:100%;height:610px;position:relative;touch-action:pan-y}
+#p3d-view canvas{display:block;width:100%;height:100%;outline:none}
+#p3d-view .p3d-loading{position:absolute;top:50%;left:0;width:100%;text-align:center;font-size:11px;letter-spacing:4px;color:#d7b76b;transform:translateY(-50%)}
+#paradise-3d .p3d-controls{display:flex;align-items:center;justify-content:center;gap:12px;padding:0 12px 12px;position:relative;z-index:3}
+#paradise-3d .p3d-controls button{background:#171511;color:#d7b76b;border:1px solid #8b7448;padding:10px 18px;cursor:pointer;font-size:12px;letter-spacing:1px;border-radius:4px;font-family:Arial,sans-serif}
+#paradise-3d .p3d-controls button:hover{background:#342a18}
+#paradise-3d .p3d-hint{text-align:center;font-size:9px;letter-spacing:2px;color:#95866a;padding:0 10px 18px}
+
+/* ORIGINAL SCROLL TABLE ANIMATION */
+#paradise-lux{position:relative;width:100%;height:200vh;background:#000;color:#cba45b;direction:ltr;font-family:Arial,Helvetica,sans-serif;isolation:isolate}
+#paradise-lux *{box-sizing:border-box}
+#paradise-lux .pl-stage{position:sticky;top:0;height:100vh;min-height:500px;overflow:hidden;background:#000}
+#pl-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+#paradise-lux .pl-brand{position:absolute;z-index:3;top:26px;left:5%;display:flex;align-items:center;gap:10px;pointer-events:none}
+#paradise-lux .pl-mark{width:35px;height:35px;display:grid;place-items:center;border:1px solid #cba45b;color:#cba45b;font:24px Georgia,serif}
+#paradise-lux .pl-name{color:#d8bb7b;font:bold 22px Georgia,serif;letter-spacing:3px}
+#paradise-lux .pl-sub{position:absolute;top:29px;left:45px;white-space:nowrap;color:#b77ae2;font-size:7px;letter-spacing:2px}
+#paradise-lux .pl-copy{position:absolute;z-index:3;left:5%;bottom:7%;width:min(440px,90%);pointer-events:none;text-shadow:0 2px 15px #000}
+#paradise-lux .pl-kicker{color:#d4b16a;font-size:10px;letter-spacing:3px}
+#paradise-lux .pl-copy h2{margin:12px 0;color:#d8bb7b;font-family:Georgia,serif;font-size:clamp(26px,3.2vw,42px);line-height:1.2;font-weight:400}
+#paradise-lux .pl-copy p{margin:0 0 18px;color:#c4b9a8;font-size:13px;line-height:1.8}
+#paradise-lux .pl-line{width:150px;height:2px;background:#382047;overflow:hidden}
+#paradise-lux #pl-progress{display:block;height:100%;width:0;background:linear-gradient(90deg,#8a20c9,#cba45b)}
+#paradise-lux .pl-hint{display:block;margin-top:10px;color:#b77ae2;font-size:9px;letter-spacing:2px}
+
+/* ORIGINAL IMPACT ANIMATION */
+#paradise-impact{position:relative;width:100%;height:220vh;background:#030304;color:#e4c783;font-family:Arial,sans-serif;overflow:clip;isolation:isolate}
+#paradise-impact *{box-sizing:border-box}
+#paradise-impact .impact-stage{position:sticky;top:0;height:100vh;min-height:480px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at center,#21152b 0%,#0b090e 48%,#000 100%)}
+#paradise-impact .impact-copy{position:relative;z-index:2;width:100%;padding:20px;text-align:center;opacity:1;transform:none;filter:none}
+#paradise-impact .impact-copy span{display:block;color:#c39b59;font-size:11px;letter-spacing:5px;margin-bottom:20px}
+#paradise-impact .impact-copy h2{margin:0;color:#f1d69a;font-family:Georgia,serif;font-size:clamp(27px,6vw,76px);font-weight:400;letter-spacing:clamp(1px,.5vw,5px);line-height:1.2;white-space:nowrap;text-shadow:0 0 24px #c39b5940}
+#paradise-impact .impact-copy p{margin-top:22px;color:#e5e0e9;font-size:10px;letter-spacing:4px}
+#paradise-impact .impact-ball{position:absolute;z-index:4;left:50%;top:50%;width:clamp(110px,17vw,175px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 30% 24%,#85858a 0%,#38383d 12%,#101013 39%,#000 72%,#242029 90%,#050505 100%);box-shadow:inset -15px -18px 30px #000,inset 5px 5px 15px #ffffff20,0 0 35px #a77bd333;transform:translate(-50%,-50%);will-change:transform}
+#paradise-impact .ball-shine{position:absolute;top:13%;left:20%;width:35%;height:13%;border-radius:50%;background:#fff4;filter:blur(7px);transform:rotate(-35deg)}
+#paradise-impact .ball-number{position:absolute;left:50%;top:50%;width:29%;aspect-ratio:1;display:grid;place-items:center;border-radius:50%;background:#f0ede5;color:#090909;font-family:Georgia,serif;font-size:20px;font-weight:bold;transform:translate(-50%,-50%)}
+#paradise-impact .impact-cue{position:absolute;z-index:5;left:-60%;top:50%;width:55%;height:10px;display:flex;align-items:center;transform:translateY(-50%);will-change:left,opacity}
+#paradise-impact .cue-butt{width:15%;height:100%;background:linear-gradient(90deg,#39220d,#d5a45c,#21140c);border-radius:5px 0 0 5px}
+#paradise-impact .cue-shaft{flex:1;height:55%;background:linear-gradient(180deg,#f0dfb4,#967143,#d9bc80)}
+#paradise-impact .cue-tip{width:9px;height:70%;background:#ad80d5;border-radius:2px}
+#paradise-impact .impact-caption{position:absolute;z-index:6;bottom:7%;left:0;width:100%;text-align:center;color:#d8bb7b;font-size:9px;letter-spacing:4px}
+
+@media(max-width:600px){
+ nav{padding:18px 20px}.logo{font-size:24px}nav ul{display:none}.hero p{font-size:18px}
+ section.content-section{padding:70px 5%}.section-title{font-size:32px}
+ #paradise-lux{height:180vh}#paradise-lux .pl-stage{min-height:480px}
+ #paradise-lux .pl-brand{top:18px;left:5%}#paradise-lux .pl-name{font-size:18px}
+ #paradise-lux .pl-copy{left:5%;right:5%;bottom:5%;width:90%}
+ #paradise-lux .pl-copy h2{font-size:29px}#paradise-lux .pl-copy p{font-size:12px}
+ #paradise-impact{height:190vh}#paradise-impact .impact-copy{padding:10px}
+ #paradise-impact .impact-copy h2{font-size:clamp(23px,6.5vw,36px);letter-spacing:0}
+ #paradise-impact .impact-copy span{font-size:9px;letter-spacing:3px}
+ #paradise-impact .impact-copy p{font-size:8px;letter-spacing:2px}
+ #paradise-impact .impact-ball{width:120px}#paradise-impact .impact-cue{height:7px}
+ #p3d-view{height:430px}#paradise-3d .p3d-heading{top:14px;left:14px}
+ #paradise-3d .p3d-name{font-size:16px}#paradise-3d .p3d-logo{width:34px;height:34px}
+ #paradise-3d .p3d-controls button{padding:10px 12px}
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo">PARADISE</div>
+  <ul>
+    <li><a href="#products">Products</a></li><li><a href="#gallery">Gallery</a></li>
+    <li><a href="#about">About</a></li><li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div><h1>PARADISE</h1><p>Luxury Billiard &amp; Snooker Tables</p><a href="tel:09307217196">Contact Us</a></div>
+</section>
+
+<!-- ORIGINAL SCROLLING 3D TABLE -->
+<div id="paradise-lux">
+  <div class="pl-stage">
+    <canvas id="pl-canvas"></canvas>
+    <div class="pl-brand"><span class="pl-mark">P</span><span class="pl-name">PARADISE</span><span class="pl-sub">LUXURY BILLIARDS</span></div>
+    <div class="pl-copy">
+      <span class="pl-kicker">PRECISION · CRAFT · DESIGN</span>
+      <h2>EXCELLENCE IN EVERY DETAIL</h2><p>Luxury Billiard Tables. Crafted to Perfection.</p>
+      <div class="pl-line"><span id="pl-progress"></span></div><span class="pl-hint">SCROLL TO DISCOVER ↓</span>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCTS: ORIGINAL IMAGE FILENAMES PRESERVED -->
+<div class="cards" id="products">
+  <div class="card"><img src="IMG_1149.jpeg" alt="Pool Tables"><h3>Pool Tables</h3><p>Luxury pool tables crafted with premium materials and modern design.</p></div>
+  <div class="card"><img src="IMG_1160.png" alt="Snooker Tables"><h3>Snooker Tables</h3><p>Professional snooker tables built for clubs and tournament standards.</p></div>
+  <div class="card"><img src="IMG_1170.jpeg" alt="Luxury Collection"><h3>Luxury Collection</h3><p>Custom billiard tables designed for villas, hotels and premium spaces.</p></div>
+</div>
+
+<!-- INTERACTIVE 3D TABLE, INSERTED BEFORE GALLERY -->
+<section id="paradise-3d" aria-label="Interactive 3D Paradise billiard table">
+  <div class="p3d-heading"><div class="p3d-logo">P</div><div><div class="p3d-name">PARADISE</div><div class="p3d-sub">LUXURY BILLIARDS</div></div></div>
+  <div id="p3d-view"><div class="p3d-loading">PARADISE · 3D EXPERIENCE</div></div>
+  <div class="p3d-controls">
+    <button id="p3d-left" type="button" aria-label="Rotate table left">↶</button>
+    <button id="p3d-home" type="button">RESET VIEW</button>
+    <button id="p3d-right" type="button" aria-label="Rotate table right">↷</button>
+  </div>
+  <div class="p3d-hint">DRAG TO ROTATE · SCROLL TO ZOOM</div>
+</section>
+
+<!-- GALLERY: ORIGINAL IMAGE FILENAMES PRESERVED -->
+<section id="gallery" class="content-section">
+  <h2 class="section-title">Gallery</h2>
+  <div class="gallery">
+    <img src="IMG_1149.jpeg" alt="Paradise billiard table"><img src="IMG_1150.webp" alt="Paradise billiard table">
+    <img src="IMG_1160.png" alt="Paradise billiard table"><img src="IMG_1167.png" alt="Paradise billiard table">
+    <img src="IMG_1170.jpeg" alt="Paradise billiard table"><img src="IMG_1171.jpeg" alt="Paradise billiard table">
+    <img src="IMG_1173.jpeg" alt="Paradise billiard table"><img src="IMG_1174.jpeg" alt="Paradise billiard table">
+    <img src="IMG_1175.jpeg" alt="Paradise billiard table"><img src="IMG_1176.jpeg" alt="Paradise billiard table">
+    <img src="IMG_1177.jpeg" alt="Paradise billiard table"><img src="IMG_1179.jpeg" alt="Paradise billiard table">
+    <img src="IMG_1283.jpeg" alt="Paradise billiard table">
+  </div>
+</section>
+
+<section id="about" class="content-section">
+  <h2 class="section-title">Why Paradise?</h2>
+  <div class="features">
+    <div class="feature"><h3>Premium Materials</h3><p>Imported wood, professional fabrics and high quality components.</p></div>
+    <div class="feature"><h3>CNC Precision</h3><p>CNC processed slate and accurate manufacturing technology.</p></div>
+    <div class="feature"><h3>Modern Production</h3><p>Advanced machinery and professional craftsmanship.</p></div>
+    <div class="feature"><h3>Worldwide Export</h3><p>Luxury billiard tables delivered for international markets.</p></div>
+  </div>
+</section>
+
+<section id="contact" class="content-section contact">
+  <h2 class="section-title">Contact Paradise</h2><p>For orders, customization and export inquiries</p><a href="tel:09307217196">📞 09307217196</a>
+</section>
+<a class="whatsapp" href="https://wa.me/989307217196" aria-label="WhatsApp">💬</a>
+<footer><h2>PARADISE BILLIARDS</h2><br><p>Luxury Billiard Tables | Premium Quality | Worldwide Export</p><br><p>© 2026 Paradise. All Rights Reserved.</p></footer>
+
+<!-- ORIGINAL IMPACT ANIMATION -->
+<section id="paradise-impact">
+  <div class="impact-stage">
+    <div class="impact-copy"><span>THE ART OF PRECISION</span><h2>BILLIARD PARADISE</h2><p>PRECISION · POWER · PERFECTION</p></div>
+    <div class="impact-ball"><div class="ball-shine"></div><div class="ball-number">8</div></div>
+    <div class="impact-cue"><div class="cue-butt"></div><div class="cue-shaft"></div><div class="cue-tip"></div></div>
+    <div class="impact-caption">SCROLL TO EXPERIENCE</div>
+  </div>
+</section>
+
+<!-- THREE.JS AND ORBIT CONTROLS -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+<script>
+/* INTERACTIVE 3D TABLE */
+(function(){
+  const root=document.getElementById('paradise-3d');
+  const view=document.getElementById('p3d-view');
+  if(!root||!view||root.dataset.started)return;
+  root.dataset.started='1';
+
+  function start(){
+    if(!window.THREE||!THREE.OrbitControls){
+      view.innerHTML='<div class="p3d-loading">3D LIBRARY COULD NOT LOAD</div>';return;
+    }
+    view.innerHTML='';
+    const scene=new THREE.Scene();
+    scene.background=new THREE.Color(0x100f0c);
+    const camera=new THREE.PerspectiveCamera(36,view.clientWidth/view.clientHeight,0.1,100);
+    camera.position.set(7.2,5.5,8.5);
+    const renderer=new THREE.WebGLRenderer({antialias:true,alpha:false});
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+    renderer.setSize(view.clientWidth,view.clientHeight);
+    renderer.shadowMap.enabled=true;
+    renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+    renderer.outputEncoding=THREE.sRGBEncoding;
+    renderer.toneMapping=THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure=1.15;
+    view.appendChild(renderer.domElement);
+
+    scene.add(new THREE.HemisphereLight(0xffe8c0,0x29251f,1.5));
+    const key=new THREE.DirectionalLight(0xffe1a1,2.5);
+    key.position.set(4,9,5);key.castShadow=true;key.shadow.mapSize.set(1024,1024);scene.add(key);
+    const fill=new THREE.DirectionalLight(0xffffff,1.1);fill.position.set(-5,5,-4);scene.add(fill);
+
+    const gold=new THREE.MeshStandardMaterial({color:0xb99a55,metalness:0.75,roughness:0.28});
+    const black=new THREE.MeshStandardMaterial({color:0x171615,metalness:0.35,roughness:0.28});
+    const darkWood=new THREE.MeshStandardMaterial({color:0x241b14,metalness:0.15,roughness:0.3});
+    const cloth=new THREE.MeshStandardMaterial({color:0x087642,roughness:0.92});
+    const pocketMat=new THREE.MeshStandardMaterial({color:0x030303,roughness:1});
+
+    function box(w,h,d,mat,x,y,z){
+      const mesh=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);
+      mesh.position.set(x,y,z);mesh.castShadow=true;mesh.receiveShadow=true;scene.add(mesh);return mesh;
+    }
+    function cylinder(rt,rb,h,mat,x,y,z){
+      const mesh=new THREE.Mesh(new THREE.CylinderGeometry(rt,rb,h,32),mat);
+      mesh.position.set(x,y,z);mesh.castShadow=true;mesh.receiveShadow=true;scene.add(mesh);return mesh;
+    }
+
+    box(5.1,0.24,3.0,black,0,1.05,0);
+    box(4.94,0.12,2.84,gold,0,1.19,0);
+    box(4.78,0.12,2.68,darkWood,0,1.28,0);
+    box(4.52,0.035,2.42,cloth,0,1.365,0);
+
+    box(4.84,0.16,0.16,black,0,1.43,-1.32);
+    box(4.84,0.16,0.16,black,0,1.43,1.32);
+    box(0.16,0.16,2.5,black,-2.42,1.43,0);
+    box(0.16,0.16,2.5,black,2.42,1.43,0);
+
+    box(4.65,0.025,0.025,gold,0,1.515,-1.32);
+    box(4.65,0.025,0.025,gold,0,1.515,1.32);
+    box(0.025,0.025,2.35,gold,-2.42,1.515,0);
+    box(0.025,0.025,2.35,gold,2.42,1.515,0);
+
+    [[-2.05,-1.05],[2.05,-1.05],[-2.05,1.05],[2.05,1.05]].forEach(function(p){
+      const x=p[0],z=p[1];
+      box(0.43,0.13,0.43,gold,x,0.88,z);
+      box(0.32,0.82,0.32,black,x,0.43,z);
+      box(0.36,0.10,0.36,gold,x,0.15,z);
+      box(0.40,0.08,0.40,black,x,0.07,z);
+    });
+
+    [[-2.28,-1.19],[2.28,-1.19],[-2.28,1.19],[2.28,1.19],[0,-1.22],[0,1.22]].forEach(function(p){
+      cylinder(0.14,0.14,0.025,pocketMat,p[0],1.397,p[1]);
+    });
+
+    const ballColors=[0xffffff,0xffc928,0x1766dd,0xe63832,0x8b36b8,0xff7b21,0x168f53,0x222222];
+    const ballPositions=[[-0.5,1.45,0],[-0.2,1.45,0.08],[0.1,1.45,-0.08],[0.4,1.45,0.07],[0.7,1.45,-0.04],[0.1,1.45,0.25],[-0.2,1.45,-0.24]];
+    ballPositions.forEach(function(p,i){
+      const material=new THREE.MeshStandardMaterial({color:ballColors[i%ballColors.length],roughness:0.2,metalness:0.03});
+      const ball=new THREE.Mesh(new THREE.SphereGeometry(0.075,24,16),material);
+      ball.position.set(p[0],p[1],p[2]);ball.castShadow=true;scene.add(ball);
+    });
+
+    const floor=new THREE.Mesh(new THREE.PlaneGeometry(200,200),new THREE.MeshStandardMaterial({color:0x11100e,roughness:0.8}));
+    floor.rotation.x=-Math.PI/2;floor.position.y=-0.02;floor.receiveShadow=true;scene.add(floor);
+
+    const controls=new THREE.OrbitControls(camera,renderer.domElement);
+    controls.enableDamping=true;controls.dampingFactor=0.06;controls.target.set(0,0.8,0);
+    controls.minDistance=4.5;controls.maxDistance=15;controls.maxPolarAngle=Math.PI*0.49;controls.update();
+
+    document.getElementById('p3d-home').addEventListener('click',function(){
+      camera.position.set(7.2,5.5,8.5);controls.target.set(0,0.8,0);controls.update();
+    });
+    document.getElementById('p3d-left').addEventListener('click',function(){
+      const offset=camera.position.clone().sub(controls.target);
+      offset.applyAxisAngle(new THREE.Vector3(0,1,0),Math.PI/6);
+      camera.position.copy(controls.target).add(offset);controls.update();
+    });
+    document.getElementById('p3d-right').addEventListener('click',function(){
+      const offset=camera.position.clone().sub(controls.target);
+      offset.applyAxisAngle(new THREE.Vector3(0,1,0),-Math.PI/6);
+      camera.position.copy(controls.target).add(offset);controls.update();
+    });
+
+    function resize(){
+      const w=view.clientWidth,h=view.clientHeight;if(!w||!h)return;
+      camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h);
+    }
+    if(window.ResizeObserver){new ResizeObserver(resize).observe(view);}
+    else{window.addEventListener('resize',resize);}
+    function animate(){requestAnimationFrame(animate);controls.update();renderer.render(scene,camera);}
+    resize();animate();
+  }
+
+  if(window.THREE&&THREE.OrbitControls){start();}
+  else{
+    let attempts=0;
+    const check=setInterval(function(){
+      attempts++;
+      if(window.THREE&&THREE.OrbitControls){clearInterval(check);start();}
+      else if(attempts>=100){clearInterval(check);view.innerHTML='<div class="p3d-loading">3D LIBRARY COULD NOT LOAD · PLEASE RELOAD</div>';}
+    },100);
+  }
+})();
+
+/* ORIGINAL PARADISE SCROLL TABLE ANIMATION */
+(function(){
+  const root=document.getElementById("paradise-lux");
+  if(!root||root.dataset.plReady==="1")return;
+  const canvas=root.querySelector("#pl-canvas");
+  const bar=root.querySelector("#pl-progress");
+  if(!canvas||!window.THREE){console.error("Paradise: Three.js did not load.");return;}
+  root.dataset.plReady="1";
+  const T=window.THREE,scene=new T.Scene();
+  scene.background=new T.Color(0x000000);
+  const camera=new T.PerspectiveCamera(36,1,0.1,150);
+  camera.position.set(12.5,10.5,15.5);camera.lookAt(0,1.1,0);
+  const renderer=new T.WebGLRenderer({canvas:canvas,antialias:true,alpha:false,powerPreference:"high-performance"});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.5));
+  renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;
+  renderer.outputEncoding=T.sRGBEncoding;renderer.toneMapping=T.ACESFilmicToneMapping;
+  renderer.toneMappingExposure=1.0;renderer.setClearColor(0x000000,1);
+  scene.add(new T.AmbientLight(0xffffff,0.75));
+  const keyLight=new T.DirectionalLight(0xffd69a,2.3);keyLight.position.set(4,10,7);scene.add(keyLight);
+  const purpleLight=new T.PointLight(0x7625d9,1.5,18);purpleLight.position.set(-4,3,-3);scene.add(purpleLight);
+  const M={
+    black:new T.MeshStandardMaterial({color:0x09090b,roughness:0.27,metalness:0.58}),
+    body:new T.MeshStandardMaterial({color:0x17151a,roughness:0.3,metalness:0.5}),
+    gold:new T.MeshStandardMaterial({color:0xc19a4e,roughness:0.26,metalness:0.8}),
+    neon:new T.MeshStandardMaterial({color:0x54177c,roughness:0.3,metalness:0.4,emissive:0x3c0870,emissiveIntensity:1.0}),
+    felt:new T.MeshStandardMaterial({color:0x125332,roughness:0.98,metalness:0}),
+    slate:new T.MeshStandardMaterial({color:0x29262b,roughness:0.7,metalness:0.1}),
+    hole:new T.MeshStandardMaterial({color:0x020202,roughness:0.95})
+  };
+  const table=new T.Group();scene.add(table);const parts=[];
+  function addPart(geo,mat,home,spread,rotation){
+    const mesh=new T.Mesh(geo,mat);mesh.castShadow=true;mesh.receiveShadow=true;mesh.position.copy(spread);
+    const finalRotation=new T.Euler(rotation?.x||0,rotation?.y||0,rotation?.z||0);
+    mesh.rotation.copy(finalRotation);table.add(mesh);
+    parts.push({mesh:mesh,home:new T.Vector3(home.x,home.y,home.z),spread:new T.Vector3(spread.x,spread.y,spread.z),finalRotation:finalRotation,initialRotation:new T.Euler(finalRotation.x+0.2,finalRotation.y+0.25,finalRotation.z+0.15)});
+    return mesh;
+  }
+  function B(w,h,d,mat,home,spread,rotation){return addPart(new T.BoxGeometry(w,h,d),mat,home,spread,rotation);}
+  [[-2.12,-1.02],[2.12,-1.02],[-2.12,1.02],[2.12,1.02]].forEach(function(p,i){
+    const x=p[0],z=p[1];
+    B(0.46,1.48,0.46,M.body,{x:x,y:0.91,z:z},{x:x*1.4,y:2.8+i*0.3,z:z*1.4});
+    B(0.49,0.10,0.49,M.black,{x:x,y:0.18,z:z},{x:x*1.6,y:-0.5,z:z*1.6});
+    B(0.47,0.035,0.47,M.gold,{x:x,y:0.25,z:z},{x:x*1.6,y:0.2,z:z*1.6});
+    B(0.49,0.08,0.49,M.gold,{x:x,y:1.62,z:z},{x:x*1.4,y:3.5+i*0.2,z:z*1.4});
+  });
+  B(5.05,0.22,0.24,M.black,{x:0,y:1.68,z:-1.12},{x:-4.2,y:4.0,z:-2.8});
+  B(5.05,0.22,0.24,M.black,{x:0,y:1.68,z:1.12},{x:4.2,y:4.2,z:2.8});
+  B(0.24,0.22,2.25,M.black,{x:-2.52,y:1.68,z:0},{x:-4.5,y:4.8,z:0.5});
+  B(0.24,0.22,2.25,M.black,{x:2.52,y:1.68,z:0},{x:4.5,y:4.6,z:-0.5});
+  B(5.08,0.15,2.70,M.slate,{x:0,y:1.87,z:0},{x:0,y:5.0,z:0});
+  B(4.66,0.045,2.30,M.felt,{x:0,y:1.975,z:0},{x:0,y:6.0,z:0});
+  B(5.38,0.24,0.31,M.body,{x:0,y:2.12,z:-1.34},{x:-4.8,y:4.5,z:-3.0});
+  B(5.38,0.24,0.31,M.body,{x:0,y:2.12,z:1.34},{x:4.8,y:4.5,z:3.0});
+  B(0.31,0.24,2.48,M.body,{x:-2.53,y:2.12,z:0},{x:-4.8,y:4.2,z:0});
+  B(0.31,0.24,2.48,M.body,{x:2.53,y:2.12,z:0},{x:4.8,y:4.2,z:0});
+  B(5.28,0.028,0.035,M.gold,{x:0,y:2.25,z:-1.34},{x:-3.8,y:5.0,z:-3.0});
+  B(5.28,0.028,0.035,M.gold,{x:0,y:2.25,z:1.34},{x:3.8,y:5.0,z:3.0});
+  B(0.035,0.028,2.48,M.gold,{x:-2.53,y:2.25,z:0},{x:-4.8,y:4.4,z:0});
+  B(0.035,0.028,2.48,M.gold,{x:2.53,y:2.25,z:0},{x:4.8,y:4.4,z:0});
+  B(4.9,0.025,0.025,M.neon,{x:0,y:1.98,z:-1.16},{x:-3.2,y:4.8,z:-2.4});
+  B(4.9,0.025,0.025,M.neon,{x:0,y:1.98,z:1.16},{x:3.2,y:4.8,z:2.4});
+  [[-2.34,-1.14],[0,-1.14],[2.34,-1.14],[-2.34,1.14],[0,1.14],[2.34,1.14]].forEach(function(p,i){
+    const x=p[0],z=p[1];
+    addPart(new T.CylinderGeometry(0.115,0.115,0.025,24),M.hole,{x:x,y:2.005,z:z},{x:x*1.3,y:3.4+i*0.2,z:z*1.4});
+    addPart(new T.TorusGeometry(0.115,0.018,8,24),M.gold,{x:x,y:2.02,z:z},{x:x*1.3,y:3.7+i*0.2,z:z*1.4},{x:Math.PI/2,y:0,z:0});
+  });
+  [0xf0e4cc,0xb88d37,0x51207d,0x8e233b,0x18151d].forEach(function(color,i){
+    const mat=new T.MeshStandardMaterial({color:color,roughness:0.22,metalness:0.22});
+    addPart(new T.SphereGeometry(0.073,20,16),mat,{x:-0.35+(i%3)*0.18,y:2.06,z:-0.15+Math.floor(i/3)*0.18},{x:-3.2+i*1.2,y:4.2+(i%2)*0.6,z:2.8-i*0.9});
+  });
+  const floor=new T.Mesh(new T.PlaneGeometry(200,200),new T.MeshBasicMaterial({color:0x000000}));
+  floor.rotation.x=-Math.PI/2;floor.position.y=-0.06;scene.add(floor);
+  function smooth(t){return t*t*(3-2*t);}
+  function progress(){const rect=root.getBoundingClientRect(),range=root.offsetHeight-window.innerHeight;if(range<=0)return 1;return Math.max(0,Math.min(1,-rect.top/range));}
+  function resize(){const stage=root.querySelector(".pl-stage"),width=root.clientWidth,height=stage.clientHeight;if(!width||!height)return;renderer.setSize(width,height,false);camera.aspect=width/height;camera.updateProjectionMatrix();}
+  let current=0,target=0;
+  function animate(){
+    requestAnimationFrame(animate);target=progress();current+=(target-current)*0.075;const e=smooth(current);
+    parts.forEach(function(item){
+      item.mesh.position.lerpVectors(item.spread,item.home,e);
+      item.mesh.rotation.x=item.initialRotation.x+(item.finalRotation.x-item.initialRotation.x)*e;
+      item.mesh.rotation.y=item.initialRotation.y+(item.finalRotation.y-item.initialRotation.y)*e;
+      item.mesh.rotation.z=item.initialRotation.z+(item.finalRotation.z-item.initialRotation.z)*e;
+    });
+    camera.position.set(12.5,10.5-e*0.2,15.5);camera.lookAt(0,1.0,0);table.rotation.y=(0.5-e)*0.06;
+    if(bar)bar.style.width=(current*100)+"%";renderer.render(scene,camera);
+  }
+  window.addEventListener("resize",resize);resize();animate();
+})();
+
+/* ORIGINAL PARADISE IMPACT SCROLL ANIMATION */
+(function(){
+  const section=document.getElementById("paradise-impact");
+  if(!section||section.dataset.ready)return;
+  section.dataset.ready="true";
+  const ball=section.querySelector(".impact-ball"),cue=section.querySelector(".impact-cue"),copy=section.querySelector(".impact-copy"),caption=section.querySelector(".impact-caption");
+  let ticking=false;
+  function updateAnimation(){
+    const rect=section.getBoundingClientRect(),distance=section.offsetHeight-window.innerHeight;
+    const progress=Math.max(0,Math.min(1,-rect.top/Math.max(1,distance)));
+    const scale=0.75+Math.min(progress/0.45,1)*0.75;
+    const moveX=progress<0.43?0:Math.min(1,(progress-0.43)/0.25)*115;
+    let cueX;
+    if(progress<0.28)cueX=-60;
+    else if(progress<0.39)cueX=-60+((progress-0.28)/0.11)*57;
+    else cueX=-3+((progress-0.39)/0.61)*75;
+    const cueOpacity=progress<0.42?1:Math.max(0,1-(progress-0.42)*7);
+    ball.style.transform=`translate(calc(-50% + ${moveX}vw), -50%) scale(${scale})`;
+    cue.style.left=cueX+"%";cue.style.opacity=cueOpacity;
+    copy.style.opacity="1";copy.style.filter="none";
+    caption.style.opacity=Math.max(0,1-progress*3);
+  }
+  function onScroll(){
+    if(ticking)return;ticking=true;
+    requestAnimationFrame(function(){updateAnimation();ticking=false;});
+  }
+  window.addEventListener("scroll",onScroll,{passive:true});
+  window.addEventListener("resize",onScroll);updateAnimation();
+})();
+</script>
+</body>
+</html>
