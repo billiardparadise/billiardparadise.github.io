@@ -1,39 +1,263 @@
 
-<div id="paradise-lux">
-  <div class="pl-stage">
-    <canvas id="pl-canvas"></canvas>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paradise Billiards</title>
 
-    <div class="pl-brand">
-      <span class="pl-mark">P</span>
-      <span class="pl-name">PARADISE</span>
-      <span class="pl-sub">LUXURY BILLIARDS</span>
-    </div>
-
-    <div class="pl-copy">
-      <span class="pl-kicker">PRECISION · CRAFT · DESIGN</span>
-      <h1>EXCELLENCE IN EVERY DETAIL</h1>
-      <p>Luxury Billiard Tables. Crafted to Perfection.</p>
-      <div class="pl-line"><span id="pl-progress"></span></div>
-      <span class="pl-hint">SCROLL TO DISCOVER ↓</span>
-    </div>
-  </div>
-</div>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: #080808;
+  color: #fff;
+  overflow-x: hidden;
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 8%;
+  background: rgba(0,0,0,.72);
+  backdrop-filter: blur(12px);
+  z-index: 1000;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.logo {
+  font-size: 32px;
+  font-weight: 700;
+  color: #d4af37;
+  letter-spacing: 3px;
+}
+
+nav ul {
+  display: flex;
+  gap: 35px;
+  list-style: none;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-size: 15px;
+  transition: .3s;
+}
+
+nav a:hover {
+  color: #d4af37;
+}
+
+.hero {
+  min-height: 100vh;
+  background:
+    linear-gradient(rgba(0,0,0,.65),rgba(0,0,0,.75)),
+    url("https://images.unsplash.com/photo-1511882150382-421056c89033?auto=format&fit=crop&w=1800&q=80");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 90px 20px 20px;
+}
+
+.hero h1 {
+  font-size: clamp(45px, 8vw, 90px);
+  color: #d4af37;
+  text-shadow: 0 0 25px rgba(212,175,55,.5);
+}
+
+.hero p {
+  font-size: 24px;
+  margin: 25px 0;
+  color: #ddd;
+}
+
+.hero a,
+.contact a {
+  display: inline-block;
+  padding: 16px 38px;
+  background: #d4af37;
+  color: #000;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 50px;
+  transition: .35s;
+}
+
+.hero a:hover,
+.contact a:hover {
+  transform: translateY(-5px);
+  background: white;
+}
+
+section.content-section {
+  padding: 100px 8%;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 42px;
+  margin-bottom: 60px;
+  color: #d4af37;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+  gap: 30px;
+  padding: 80px 8%;
+  background: #080808;
+}
+
+.card {
+  background: #161616;
+  border-radius: 20px;
+  overflow: hidden;
+  transition: .35s;
+  box-shadow: 0 15px 35px rgba(0,0,0,.3);
+}
+
+.card:hover {
+  transform: translateY(-8px);
+}
+
+.card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+.card h3 {
+  padding: 20px;
+  font-size: 24px;
+}
+
+.card p {
+  padding: 0 20px 25px;
+  color: #bbb;
+  line-height: 1.8;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+  gap: 25px;
+}
+
+.gallery img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  border-radius: 20px;
+  transition: .4s;
+}
+
+.gallery img:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 30px rgba(212,175,55,.35);
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+  gap: 25px;
+}
+
+.feature {
+  background: #151515;
+  padding: 35px 25px;
+  border-radius: 20px;
+  text-align: center;
+  border: 1px solid rgba(212,175,55,.15);
+  transition: .3s;
+}
+
+.feature:hover {
+  border-color: #d4af37;
+  transform: translateY(-8px);
+}
+
+.feature h3 {
+  color: #d4af37;
+  margin-bottom: 15px;
+  font-size: 22px;
+}
+
+.feature p {
+  color: #ccc;
+  line-height: 1.8;
+}
+
+.contact {
+  text-align: center;
+  background: #111;
+}
+
+.contact p {
+  color: #ddd;
+}
+
+.contact a {
+  margin-top: 25px;
+}
+
+footer {
+  background: #000;
+  text-align: center;
+  padding: 40px 20px;
+  color: #aaa;
+}
+
+.whatsapp {
+  position: fixed;
+  right: 25px;
+  bottom: 25px;
+  width: 60px;
+  height: 60px;
+  background: #25d366;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  color: white;
+  text-decoration: none;
+  z-index: 999;
+  box-shadow: 0 5px 20px rgba(0,0,0,.5);
+}
+
+/* THREE-DIMENSIONAL SCROLL ANIMATION */
+
 #paradise-lux {
   position: relative;
   width: 100%;
   height: 200vh;
-  margin: 0;
-  padding: 0;
-  background: #000 !important;
+  background: #000;
   color: #cba45b;
   direction: ltr;
   font-family: Arial, Helvetica, sans-serif;
   isolation: isolate;
 }
 
-#paradise-lux * { box-sizing: border-box; }
+#paradise-lux * {
+  box-sizing: border-box;
+}
 
 #paradise-lux .pl-stage {
   position: sticky;
@@ -41,7 +265,7 @@
   height: 100vh;
   min-height: 500px;
   overflow: hidden;
-  background: #000 !important;
+  background: #000;
 }
 
 #pl-canvas {
@@ -60,7 +284,6 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  direction: ltr;
   pointer-events: none;
 }
 
@@ -71,12 +294,12 @@
   place-items: center;
   border: 1px solid #cba45b;
   color: #cba45b;
-  font: 24px Georgia, serif;
+  font: 24px Georgia,serif;
 }
 
 #paradise-lux .pl-name {
   color: #d8bb7b;
-  font: bold 22px Georgia, serif;
+  font: bold 22px Georgia,serif;
   letter-spacing: 3px;
 }
 
@@ -95,7 +318,7 @@
   z-index: 3;
   left: 5%;
   bottom: 7%;
-  width: min(440px, 90%);
+  width: min(440px,90%);
   pointer-events: none;
   text-shadow: 0 2px 15px #000;
 }
@@ -106,19 +329,18 @@
   letter-spacing: 3px;
 }
 
-#paradise-lux .pl-copy h1 {
+#paradise-lux .pl-copy h2 {
   margin: 12px 0;
-  color: #d8bb7b !important;
-  font-family: Georgia, serif;
-  font-size: clamp(26px, 3.2vw, 42px);
+  color: #d8bb7b;
+  font-family: Georgia,serif;
+  font-size: clamp(26px,3.2vw,42px);
   line-height: 1.2;
   font-weight: 400;
-  letter-spacing: 0.5px;
 }
 
 #paradise-lux .pl-copy p {
   margin: 0 0 18px;
-  color: #c4b9a8 !important;
+  color: #c4b9a8;
   font-size: 13px;
   line-height: 1.8;
 }
@@ -134,7 +356,7 @@
   display: block;
   height: 100%;
   width: 0;
-  background: linear-gradient(90deg, #8a20c9, #cba45b);
+  background: linear-gradient(90deg,#8a20c9,#cba45b);
 }
 
 #paradise-lux .pl-hint {
@@ -145,23 +367,199 @@
   letter-spacing: 2px;
 }
 
-@media (max-width: 600px) {
-  #paradise-lux { height: 180vh; }
-  #paradise-lux .pl-stage { min-height: 480px; }
-  #paradise-lux .pl-brand { top: 18px; left: 5%; }
-  #paradise-lux .pl-name { font-size: 18px; }
+@media(max-width:600px) {
+  nav {
+    padding: 18px 20px;
+  }
+
+  .logo {
+    font-size: 24px;
+  }
+
+  nav ul {
+    display: none;
+  }
+
+  .hero p {
+    font-size: 18px;
+  }
+
+  section.content-section {
+    padding: 70px 5%;
+  }
+
+  .section-title {
+    font-size: 32px;
+  }
+
+  #paradise-lux {
+    height: 180vh;
+  }
+
+  #paradise-lux .pl-stage {
+    min-height: 480px;
+  }
+
+  #paradise-lux .pl-brand {
+    top: 18px;
+    left: 5%;
+  }
+
+  #paradise-lux .pl-name {
+    font-size: 18px;
+  }
+
   #paradise-lux .pl-copy {
     left: 5%;
     right: 5%;
     bottom: 5%;
     width: 90%;
   }
-  #paradise-lux .pl-copy h1 { font-size: 29px; }
-  #paradise-lux .pl-copy p { font-size: 12px; }
+
+  #paradise-lux .pl-copy h2 {
+    font-size: 29px;
+  }
+
+  #paradise-lux .pl-copy p {
+    font-size: 12px;
+  }
 }
 </style>
+</head>
 
+<body>
+
+<nav>
+  <div class="logo">PARADISE</div>
+  <ul>
+    <li><a href="#products">Products</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- MAIN HERO -->
+<section class="hero">
+  <div>
+    <h1>PARADISE</h1>
+    <p>Luxury Billiard &amp; Snooker Tables</p>
+    <a href="tel:09307217196">Contact Us</a>
+  </div>
+</section>
+
+<!-- SCROLL ANIMATION: BETWEEN HERO AND PRODUCTS -->
+<div id="paradise-lux">
+  <div class="pl-stage">
+    <canvas id="pl-canvas"></canvas>
+
+    <div class="pl-brand">
+      <span class="pl-mark">P</span>
+      <span class="pl-name">PARADISE</span>
+      <span class="pl-sub">LUXURY BILLIARDS</span>
+    </div>
+
+    <div class="pl-copy">
+      <span class="pl-kicker">PRECISION · CRAFT · DESIGN</span>
+      <h2>EXCELLENCE IN EVERY DETAIL</h2>
+      <p>Luxury Billiard Tables. Crafted to Perfection.</p>
+      <div class="pl-line"><span id="pl-progress"></span></div>
+      <span class="pl-hint">SCROLL TO DISCOVER ↓</span>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCTS: IMAGE FILENAMES UNCHANGED -->
+<div class="cards" id="products">
+
+  <div class="card">
+    <img src="IMG_1149.jpeg" alt="Pool Tables">
+    <h3>Pool Tables</h3>
+    <p>Luxury pool tables crafted with premium materials and modern design.</p>
+  </div>
+
+  <div class="card">
+    <img src="IMG_1160.png" alt="Snooker Tables">
+    <h3>Snooker Tables</h3>
+    <p>Professional snooker tables built for clubs and tournament standards.</p>
+  </div>
+
+  <div class="card">
+    <img src="IMG_1170.jpeg" alt="Luxury Collection">
+    <h3>Luxury Collection</h3>
+    <p>Custom billiard tables designed for villas, hotels and premium spaces.</p>
+  </div>
+
+</div>
+
+<!-- GALLERY: ALL ORIGINAL IMAGE FILENAMES UNCHANGED -->
+<section id="gallery" class="content-section">
+  <h2 class="section-title">Gallery</h2>
+
+  <div class="gallery">
+    <img src="IMG_1149.jpeg" alt="Paradise billiard table">
+    <img src="IMG_1150.webp" alt="Paradise billiard table">
+    <img src="IMG_1160.png" alt="Paradise billiard table">
+    <img src="IMG_1167.png" alt="Paradise billiard table">
+    <img src="IMG_1170.jpeg" alt="Paradise billiard table">
+    <img src="IMG_1171.jpeg" alt="Paradise billiard table">
+    <img src="IMG_1173.jpeg" alt="Paradise billiard table">
+    <img src="IMG_1174.jpeg" alt="Paradise billiard table">
+    <img src="IMG_1175.jpeg" alt="Paradise billiard table">
+    <img src="IMG_1176.jpeg" alt="Paradise billiard table">
+    <img src="IMG_1177.jpeg" alt="Paradise billiard table">
+    <img src="IMG_1179.jpeg" alt="Paradise billiard table">
+    <img src="IMG_1283.jpeg" alt="Paradise billiard table">
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="content-section">
+  <h2 class="section-title">Why Paradise?</h2>
+
+  <div class="features">
+    <div class="feature">
+      <h3>Premium Materials</h3>
+      <p>Imported wood, professional fabrics and high quality components.</p>
+    </div>
+
+    <div class="feature">
+      <h3>CNC Precision</h3>
+      <p>CNC processed slate and accurate manufacturing technology.</p>
+    </div>
+
+    <div class="feature">
+      <h3>Modern Production</h3>
+      <p>Advanced machinery and professional craftsmanship.</p>
+    </div>
+
+    <div class="feature">
+      <h3>Worldwide Export</h3>
+      <p>Luxury billiard tables delivered for international markets.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="content-section contact">
+  <h2 class="section-title">Contact Paradise</h2>
+  <p>For orders, customization and export inquiries</p>
+  <a href="tel:09307217196">📞 09307217196</a>
+</section>
+
+<a class="whatsapp" href="https://wa.me/989307217196" aria-label="WhatsApp">💬</a>
+
+<footer>
+  <h2>PARADISE BILLIARDS</h2>
+  <br>
+  <p>Luxury Billiard Tables | Premium Quality | Worldwide Export</p>
+  <br>
+  <p>© 2026 Paradise. All Rights Reserved.</p>
+</footer>
+
+<!-- THREE.JS -->
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+
 <script>
 (function () {
   const root = document.getElementById("paradise-lux");
@@ -181,7 +579,6 @@
   const scene = new T.Scene();
   scene.background = new T.Color(0x000000);
 
-  // Wider view and greater distance keep the entire table visible.
   const camera = new T.PerspectiveCamera(36, 1, 0.1, 150);
   camera.position.set(12.5, 10.5, 15.5);
   camera.lookAt(0, 1.1, 0);
@@ -238,7 +635,6 @@
 
   const table = new T.Group();
   scene.add(table);
-
   const parts = [];
 
   function addPart(geo, mat, home, spread, rotation) {
@@ -278,10 +674,7 @@
     );
   }
 
-  const L = 5.3;
-  const W = 2.95;
-
-  // Four heavy rectangular legs.
+  // Four table legs
   [
     [-2.12, -1.02],
     [ 2.12, -1.02],
@@ -307,7 +700,7 @@
       {x:x*1.4,y:3.5+i*0.2,z:z*1.4});
   });
 
-  // Underframe.
+  // Underframe
   B(5.05, 0.22, 0.24, M.black,
     {x:0,y:1.68,z:-1.12},
     {x:-4.2,y:4.0,z:-2.8});
@@ -324,7 +717,7 @@
     {x:2.52,y:1.68,z:0},
     {x:4.5,y:4.6,z:-0.5});
 
-  // Stone slab and cloth.
+  // Slate and playing cloth
   B(5.08, 0.15, 2.70, M.slate,
     {x:0,y:1.87,z:0},
     {x:0,y:5.0,z:0});
@@ -333,7 +726,7 @@
     {x:0,y:1.975,z:0},
     {x:0,y:6.0,z:0});
 
-  // Four separate rails with clear outer corners.
+  // Rails
   B(5.38, 0.24, 0.31, M.body,
     {x:0,y:2.12,z:-1.34},
     {x:-4.8,y:4.5,z:-3.0});
@@ -350,7 +743,7 @@
     {x:2.53,y:2.12,z:0},
     {x:4.8,y:4.2,z:0});
 
-  // Fine gold edging.
+  // Gold edging
   B(5.28, 0.028, 0.035, M.gold,
     {x:0,y:2.25,z:-1.34},
     {x:-3.8,y:5.0,z:-3.0});
@@ -367,7 +760,7 @@
     {x:2.53,y:2.25,z:0},
     {x:4.8,y:4.4,z:0});
 
-  // Purple underlighting.
+  // Purple lighting strips
   B(4.9, 0.025, 0.025, M.neon,
     {x:0,y:1.98,z:-1.16},
     {x:-3.2,y:4.8,z:-2.4});
@@ -376,24 +769,24 @@
     {x:0,y:1.98,z:1.16},
     {x:3.2,y:4.8,z:2.4});
 
-  // Pocket holes sit on the playing surface.
+  // Six pockets
   const pockets = [
-    [-2.34, -1.14], [0, -1.14], [2.34, -1.14],
-    [-2.34,  1.14], [0,  1.14], [2.34,  1.14]
+    [-2.34,-1.14],[0,-1.14],[2.34,-1.14],
+    [-2.34,1.14],[0,1.14],[2.34,1.14]
   ];
 
   pockets.forEach(function (p, i) {
     const x = p[0], z = p[1];
 
     addPart(
-      new T.CylinderGeometry(0.115, 0.115, 0.025, 24),
+      new T.CylinderGeometry(0.115,0.115,0.025,24),
       M.hole,
       {x:x,y:2.005,z:z},
       {x:x*1.3,y:3.4+i*0.2,z:z*1.4}
     );
 
     addPart(
-      new T.TorusGeometry(0.115, 0.018, 8, 24),
+      new T.TorusGeometry(0.115,0.018,8,24),
       M.gold,
       {x:x,y:2.02,z:z},
       {x:x*1.3,y:3.7+i*0.2,z:z*1.4},
@@ -401,8 +794,10 @@
     );
   });
 
-  // Billiard balls.
-  const colors = [0xf0e4cc, 0xb88d37, 0x51207d, 0x8e233b, 0x18151d];
+  // Billiard balls
+  const colors = [
+    0xf0e4cc,0xb88d37,0x51207d,0x8e233b,0x18151d
+  ];
 
   colors.forEach(function (color, i) {
     const mat = new T.MeshStandardMaterial({
@@ -412,7 +807,7 @@
     });
 
     addPart(
-      new T.SphereGeometry(0.073, 20, 16),
+      new T.SphereGeometry(0.073,20,16),
       mat,
       {
         x:-0.35+(i%3)*0.18,
@@ -427,9 +822,9 @@
     );
   });
 
-  // Black ground.
+  // Black floor
   const floor = new T.Mesh(
-    new T.PlaneGeometry(200, 200),
+    new T.PlaneGeometry(200,200),
     new T.MeshBasicMaterial({color:0x000000})
   );
   floor.rotation.x = -Math.PI/2;
@@ -444,7 +839,7 @@
     const rect = root.getBoundingClientRect();
     const range = root.offsetHeight - window.innerHeight;
     if (range <= 0) return 1;
-    return Math.max(0, Math.min(1, -rect.top / range));
+    return Math.max(0,Math.min(1,-rect.top/range));
   }
 
   function resize() {
@@ -452,572 +847,56 @@
     const width = root.clientWidth;
     const height = stage.clientHeight;
 
-    renderer.setSize(width, height, false);
-    camera.aspect = width / height;
+    if (!width || !height) return;
+
+    renderer.setSize(width,height,false);
+    camera.aspect = width/height;
     camera.updateProjectionMatrix();
   }
 
   let current = 0;
   let target = 0;
+  let animationFrame;
 
   function animate() {
-    requestAnimationFrame(animate);
+    animationFrame = requestAnimationFrame(animate);
 
     target = progress();
-    current += (target - current) * 0.075;
+    current += (target-current)*0.075;
 
     const e = smooth(current);
 
     parts.forEach(function (item) {
-      item.mesh.position.lerpVectors(item.spread, item.home, e);
+      item.mesh.position.lerpVectors(item.spread,item.home,e);
 
-      item.mesh.rotation.x = item.initialRotation.x +
-        (item.finalRotation.x - item.initialRotation.x) * e;
+      item.mesh.rotation.x =
+        item.initialRotation.x +
+        (item.finalRotation.x-item.initialRotation.x)*e;
 
-      item.mesh.rotation.y = item.initialRotation.y +
-        (item.finalRotation.y - item.initialRotation.y) * e;
+      item.mesh.rotation.y =
+        item.initialRotation.y +
+        (item.finalRotation.y-item.initialRotation.y)*e;
 
-      item.mesh.rotation.z = item.initialRotation.z +
-        (item.finalRotation.z - item.initialRotation.z) * e;
+      item.mesh.rotation.z =
+        item.initialRotation.z +
+        (item.finalRotation.z-item.initialRotation.z)*e;
     });
 
-    // Keep all four corners inside the camera frame.
-    camera.position.set(12.5, 10.5 - e * 0.2, 15.5);
-    camera.lookAt(0, 1.0, 0);
+    camera.position.set(12.5,10.5-e*0.2,15.5);
+    camera.lookAt(0,1.0,0);
 
-    table.rotation.y = (0.5 - e) * 0.06;
+    table.rotation.y = (0.5-e)*0.06;
 
-    if (bar) bar.style.width = (current * 100) + "%";
+    if (bar) bar.style.width = (current*100)+"%";
 
-    renderer.render(scene, camera);
+    renderer.render(scene,camera);
   }
 
-  window.addEventListener("resize", resize);
+  window.addEventListener("resize",resize);
   resize();
   animate();
 })();
 </script>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Paradise Billiards</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-scroll-behavior:smooth;
-font-family:'Poppins',sans-serif;
-}
-
-body{
-background:#080808;
-color:#fff;
-overflow-x:hidden;
-}
-
-nav{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:20px 8%;
-background:rgba(0,0,0,.45);
-backdrop-filter:blur(12px);
-z-index:1000;
-border-bottom:1px solid rgba(255,255,255,.08);
-}
-
-.logo{
-font-size:32px;
-font-weight:700;
-color:#d4af37;
-letter-spacing:3px;
-}
-
-nav ul{
-display:flex;
-gap:35px;
-list-style:none;
-}
-
-nav a{
-color:white;
-text-decoration:none;
-font-size:15px;
-transition:.3s;
-}
-
-nav a:hover{
-color:#d4af37;
-}
-
-.hero{
-height:100vh;
-background:
-linear-gradient(rgba(0,0,0,.65),rgba(0,0,0,.75)),
-url("https://images.unsplash.com/photo-1511882150382-421056c89033?auto=format&fit=crop&w=1800&q=80");
-background-size:cover;
-background-position:center;
-display:flex;
-justify-content:center;
-align-items:center;
-text-align:center;
-padding:20px;
-}
-
-.hero h1{
-font-size:90px;
-color:#d4af37;
-text-shadow:0 0 25px rgba(212,175,55,.5);
-}
-
-.hero p{
-font-size:24px;
-margin:25px 0;
-color:#ddd;
-}
-
-.hero a{
-display:inline-block;
-padding:18px 45px;
-background:#d4af37;
-color:#000;
-font-weight:bold;
-text-decoration:none;
-border-radius:50px;
-transition:.35s;
-}
-
-.hero a:hover{
-transform:translateY(-5px);
-background:white;
-}
-
-section{
-padding:100px 8%;
-}
-
-.section-title{
-text-align:center;
-font-size:42px;
-margin-bottom:60px;
-color:#d4af37;
-}
-
-.cards{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:30px;
-}
-
-.card{
-background:#161616;
-border-radius:20px;
-overflow:hidden;
-transition:.35s;
-box-shadow:0 15px 35px rgba(0,0,0,.3);
-}
-
-.card:hover{
-transform:translateY(-12px);
-}
-
-.card img{
-width:100%;
-height:220px;
-object-fit:cover;
-}
-
-.card h3{
-padding:20px;
-font-size:24px;
-}
-
-.card p{
-padding:0 20px 25px;
-color:#bbb;
-line-height:1.8;
-}
-  /* ادامه استایل */
-
-.gallery{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-gap:25px;
-}
-
-.gallery img{
-width:100%;
-height:280px;
-object-fit:cover;
-border-radius:20px;
-transition:.4s;
-}
-
-.gallery img:hover{
-transform:scale(1.05);
-box-shadow:0 0 30px rgba(212,175,55,.35);
-}
-
-.features{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:25px;
-}
-
-.feature{
-background:#151515;
-padding:35px 25px;
-border-radius:20px;
-text-align:center;
-border:1px solid rgba(212,175,55,.15);
-transition:.3s;
-}
-
-.feature:hover{
-border-color:#d4af37;
-transform:translateY(-10px);
-}
-
-.feature h3{
-color:#d4af37;
-margin-bottom:15px;
-font-size:22px;
-}
-
-.feature p{
-color:#ccc;
-line-height:1.8;
-}
-
-.contact{
-text-align:center;
-background:#111;
-}
-
-.contact a{
-display:inline-block;
-margin-top:25px;
-padding:15px 35px;
-background:#d4af37;
-color:#000;
-text-decoration:none;
-border-radius:50px;
-font-weight:bold;
-}
-
-footer{
-background:#000;
-text-align:center;
-padding:40px 20px;
-color:#aaa;
-}
-
-.whatsapp{
-position:fixed;
-right:25px;
-bottom:25px;
-width:60px;
-height:60px;
-background:#25d366;
-border-radius:50%;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:28px;
-color:white;
-text-decoration:none;
-z-index:999;
-box-shadow:0 5px 20px rgba(0,0,0,.5);
-}
-
-@media(max-width:768px){
-
-nav{
-padding:20px;
-}
-
-.logo{
-font-size:24px;
-}
-
-nav ul{
-display:none;
-}
-
-.hero h1{
-font-size:55px;
-}
-
-.hero p{
-font-size:18px;
-}
-
-section{
-padding:70px 5%;
-}
-
-.section-title{
-font-size:32px;
-}
-
-}
-
-</style>
-
-</head>
-
-<body> 
-  <nav>
-
-<div class="logo">
-PARADISE
-</div>
-
-<ul>
-<li><a href="#products">Products</a></li>
-<li><a href="#gallery">Gallery</a></li>
-<li><a href="#about">About</a></li>
-<li><a href="#contact">Contact</a></li>
-</ul>
-
-</nav>
-
-
-<section class="hero">
-
-<div>
-
-<h1>PARADISE</h1>
-
-<p>Luxury Billiard & Snooker Tables</p>
-
-<a href="tel:09307217196">
-Contact Us
-</a>
-
-</div>
-
-</section>
-
-<div class="cards">
-
-
-<div class="card">
-
-<img src="IMG_1149.jpeg">
-
-<h3>Pool Tables</h3>
-
-<p>
-Luxury pool tables crafted with premium materials and modern design.
-</p>
-
-</div>
-
-
-
-<div class="card">
-
-<img src="IMG_1160.png">
-
-<h3>Snooker Tables</h3>
-
-<p>
-Professional snooker tables built for clubs and tournament standards.
-</p>
-
-</div>
-
-
-
-<div class="card">
-
-<img src="IMG_1170.jpeg">
-
-<h3>Luxury Collection</h3>
-
-<p>
-Custom billiard tables designed for villas, hotels and premium spaces.
-</p>
-
-</div>
-
-
-</div>
-
-
-
-
-</div>
-
-
-
-<section id="gallery">
-
-<h2 class="section-title">
-Gallery
-</h2>
-
-<div class="gallery">
-
-<img src="IMG_1149.jpeg">
-
-<img src="IMG_1150.webp">
-
-<img src="IMG_1160.png">
-
-<img src="IMG_1167.png">
-
-<img src="IMG_1170.jpeg">
-
-<img src="IMG_1171.jpeg">
-
-<img src="IMG_1173.jpeg">
-
-<img src="IMG_1174.jpeg">
-
-<img src="IMG_1175.jpeg">
-
-<img src="IMG_1176.jpeg">
-
-<img src="IMG_1177.jpeg">
-
-<img src="IMG_1179.jpeg">
-
-<img src="IMG_1283.jpeg">
-
-</div>
-
-</section>
-
-
-
-
-<section id="about">
-
-<h2 class="section-title">
-Why Paradise?
-</h2>
-
-
-<div class="features">
-
-
-<div class="feature">
-
-<h3>
-Premium Materials
-</h3>
-
-<p>
-Imported wood, professional fabrics and high quality components.
-</p>
-
-</div>
-
-
-
-<div class="feature">
-
-<h3>
-CNC Precision
-</h3>
-
-<p>
-CNC processed slate and accurate manufacturing technology.
-</p>
-
-</div>
-
-
-
-<div class="feature">
-
-<h3>
-Modern Production
-</h3>
-
-<p>
-Advanced machinery and professional craftsmanship.
-</p>
-
-</div>
-
-
-
-<div class="feature">
-
-<h3>
-Worldwide Export
-</h3>
-
-<p>
-Luxury billiard tables delivered for international markets.
-</p>
-
-</div>
-
-
-</div>
-
-</section>
-<section id="contact" class="contact">
-
-<h2 class="section-title">
-Contact Paradise
-</h2>
-
-<p>
-For orders, customization and export inquiries
-</p>
-
-<a href="tel:09307217196">
-📞 09307217196
-</a>
-
-</section>
-
-
-
-<a class="whatsapp" href="https://wa.me/989307217196">
-💬
-</a>
-
-
-
-<footer>
-
-<h2>
-PARADISE BILLIARDS
-</h2>
-
-<br>
-
-<p>
-Luxury Billiard Tables | Premium Quality | Worldwide Export
-</p>
-
-<br>
-
-<p>
-© 2026 Paradise. All Rights Reserved.
-</p>
-
-</footer>
-
-
 </body>
-
 </html>
