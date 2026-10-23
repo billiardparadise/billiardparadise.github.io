@@ -1,3 +1,503 @@
+
+<div id="paradise-lux">
+  <div class="pl-stage">
+    <canvas id="pl-canvas"></canvas>
+
+    <div class="pl-brand">
+      <span class="pl-mark">P</span>
+      <span class="pl-name">PARADISE</span>
+      <span class="pl-sub">LUXURY BILLIARDS</span>
+    </div>
+
+    <div class="pl-copy">
+      <span class="pl-kicker">PRECISION · CRAFT · DESIGN</span>
+      <h1>EXCELLENCE IN EVERY DETAIL</h1>
+      <p>Luxury Billiard Tables. Crafted to Perfection.</p>
+      <div class="pl-line"><span id="pl-progress"></span></div>
+      <span class="pl-hint">SCROLL TO DISCOVER ↓</span>
+    </div>
+  </div>
+</div>
+
+<style>
+#paradise-lux {
+  position: relative;
+  width: 100%;
+  height: 200vh;
+  margin: 0;
+  padding: 0;
+  background: #000 !important;
+  color: #cba45b;
+  direction: ltr;
+  font-family: Arial, Helvetica, sans-serif;
+  isolation: isolate;
+}
+
+#paradise-lux * { box-sizing: border-box; }
+
+#paradise-lux .pl-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  min-height: 500px;
+  overflow: hidden;
+  background: #000 !important;
+}
+
+#pl-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+#paradise-lux .pl-brand {
+  position: absolute;
+  z-index: 3;
+  top: 26px;
+  left: 5%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  direction: ltr;
+  pointer-events: none;
+}
+
+#paradise-lux .pl-mark {
+  width: 35px;
+  height: 35px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #cba45b;
+  color: #cba45b;
+  font: 24px Georgia, serif;
+}
+
+#paradise-lux .pl-name {
+  color: #d8bb7b;
+  font: bold 22px Georgia, serif;
+  letter-spacing: 3px;
+}
+
+#paradise-lux .pl-sub {
+  position: absolute;
+  top: 29px;
+  left: 45px;
+  white-space: nowrap;
+  color: #b77ae2;
+  font-size: 7px;
+  letter-spacing: 2px;
+}
+
+#paradise-lux .pl-copy {
+  position: absolute;
+  z-index: 3;
+  left: 5%;
+  bottom: 7%;
+  width: min(440px, 90%);
+  pointer-events: none;
+  text-shadow: 0 2px 15px #000;
+}
+
+#paradise-lux .pl-kicker {
+  color: #d4b16a;
+  font-size: 10px;
+  letter-spacing: 3px;
+}
+
+#paradise-lux .pl-copy h1 {
+  margin: 12px 0;
+  color: #d8bb7b !important;
+  font-family: Georgia, serif;
+  font-size: clamp(26px, 3.2vw, 42px);
+  line-height: 1.2;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+}
+
+#paradise-lux .pl-copy p {
+  margin: 0 0 18px;
+  color: #c4b9a8 !important;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+#paradise-lux .pl-line {
+  width: 150px;
+  height: 2px;
+  background: #382047;
+  overflow: hidden;
+}
+
+#paradise-lux #pl-progress {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, #8a20c9, #cba45b);
+}
+
+#paradise-lux .pl-hint {
+  display: block;
+  margin-top: 10px;
+  color: #b77ae2;
+  font-size: 9px;
+  letter-spacing: 2px;
+}
+
+@media (max-width: 600px) {
+  #paradise-lux { height: 180vh; }
+  #paradise-lux .pl-stage { min-height: 480px; }
+  #paradise-lux .pl-brand { top: 18px; left: 5%; }
+  #paradise-lux .pl-name { font-size: 18px; }
+  #paradise-lux .pl-copy {
+    left: 5%;
+    right: 5%;
+    bottom: 5%;
+    width: 90%;
+  }
+  #paradise-lux .pl-copy h1 { font-size: 29px; }
+  #paradise-lux .pl-copy p { font-size: 12px; }
+}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script>
+(function () {
+  const root = document.getElementById("paradise-lux");
+  if (!root || root.dataset.plReady === "1") return;
+
+  const canvas = root.querySelector("#pl-canvas");
+  const bar = root.querySelector("#pl-progress");
+
+  if (!canvas || !window.THREE) {
+    console.error("Paradise: Three.js did not load.");
+    return;
+  }
+
+  root.dataset.plReady = "1";
+
+  const T = window.THREE;
+  const scene = new T.Scene();
+  scene.background = new T.Color(0x000000);
+
+  // Wider view and greater distance keep the entire table visible.
+  const camera = new T.PerspectiveCamera(36, 1, 0.1, 150);
+  camera.position.set(12.5, 10.5, 15.5);
+  camera.lookAt(0, 1.1, 0);
+
+  const renderer = new T.WebGLRenderer({
+    canvas: canvas,
+    antialias: true,
+    alpha: false,
+    powerPreference: "high-performance"
+  });
+
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = T.PCFSoftShadowMap;
+  renderer.outputEncoding = T.sRGBEncoding;
+  renderer.toneMapping = T.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.0;
+  renderer.setClearColor(0x000000, 1);
+
+  scene.add(new T.AmbientLight(0xffffff, 0.75));
+
+  const keyLight = new T.DirectionalLight(0xffd69a, 2.3);
+  keyLight.position.set(4, 10, 7);
+  scene.add(keyLight);
+
+  const purpleLight = new T.PointLight(0x7625d9, 1.5, 18);
+  purpleLight.position.set(-4, 3, -3);
+  scene.add(purpleLight);
+
+  const M = {
+    black: new T.MeshStandardMaterial({
+      color: 0x09090b, roughness: 0.27, metalness: 0.58
+    }),
+    body: new T.MeshStandardMaterial({
+      color: 0x17151a, roughness: 0.3, metalness: 0.5
+    }),
+    gold: new T.MeshStandardMaterial({
+      color: 0xc19a4e, roughness: 0.26, metalness: 0.8
+    }),
+    neon: new T.MeshStandardMaterial({
+      color: 0x54177c, roughness: 0.3, metalness: 0.4,
+      emissive: 0x3c0870, emissiveIntensity: 1.0
+    }),
+    felt: new T.MeshStandardMaterial({
+      color: 0x125332, roughness: 0.98, metalness: 0
+    }),
+    slate: new T.MeshStandardMaterial({
+      color: 0x29262b, roughness: 0.7, metalness: 0.1
+    }),
+    hole: new T.MeshStandardMaterial({
+      color: 0x020202, roughness: 0.95
+    })
+  };
+
+  const table = new T.Group();
+  scene.add(table);
+
+  const parts = [];
+
+  function addPart(geo, mat, home, spread, rotation) {
+    const mesh = new T.Mesh(geo, mat);
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
+    mesh.position.copy(spread);
+
+    const finalRotation = new T.Euler(
+      rotation?.x || 0,
+      rotation?.y || 0,
+      rotation?.z || 0
+    );
+
+    mesh.rotation.copy(finalRotation);
+    table.add(mesh);
+
+    parts.push({
+      mesh: mesh,
+      home: new T.Vector3(home.x, home.y, home.z),
+      spread: new T.Vector3(spread.x, spread.y, spread.z),
+      finalRotation: finalRotation,
+      initialRotation: new T.Euler(
+        finalRotation.x + 0.2,
+        finalRotation.y + 0.25,
+        finalRotation.z + 0.15
+      )
+    });
+
+    return mesh;
+  }
+
+  function B(w, h, d, mat, home, spread, rotation) {
+    return addPart(
+      new T.BoxGeometry(w, h, d),
+      mat, home, spread, rotation
+    );
+  }
+
+  const L = 5.3;
+  const W = 2.95;
+
+  // Four heavy rectangular legs.
+  [
+    [-2.12, -1.02],
+    [ 2.12, -1.02],
+    [-2.12,  1.02],
+    [ 2.12,  1.02]
+  ].forEach(function (p, i) {
+    const x = p[0], z = p[1];
+
+    B(0.46, 1.48, 0.46, M.body,
+      {x:x,y:0.91,z:z},
+      {x:x*1.4,y:2.8+i*0.3,z:z*1.4});
+
+    B(0.49, 0.10, 0.49, M.black,
+      {x:x,y:0.18,z:z},
+      {x:x*1.6,y:-0.5,z:z*1.6});
+
+    B(0.47, 0.035, 0.47, M.gold,
+      {x:x,y:0.25,z:z},
+      {x:x*1.6,y:0.2,z:z*1.6});
+
+    B(0.49, 0.08, 0.49, M.gold,
+      {x:x,y:1.62,z:z},
+      {x:x*1.4,y:3.5+i*0.2,z:z*1.4});
+  });
+
+  // Underframe.
+  B(5.05, 0.22, 0.24, M.black,
+    {x:0,y:1.68,z:-1.12},
+    {x:-4.2,y:4.0,z:-2.8});
+
+  B(5.05, 0.22, 0.24, M.black,
+    {x:0,y:1.68,z:1.12},
+    {x:4.2,y:4.2,z:2.8});
+
+  B(0.24, 0.22, 2.25, M.black,
+    {x:-2.52,y:1.68,z:0},
+    {x:-4.5,y:4.8,z:0.5});
+
+  B(0.24, 0.22, 2.25, M.black,
+    {x:2.52,y:1.68,z:0},
+    {x:4.5,y:4.6,z:-0.5});
+
+  // Stone slab and cloth.
+  B(5.08, 0.15, 2.70, M.slate,
+    {x:0,y:1.87,z:0},
+    {x:0,y:5.0,z:0});
+
+  B(4.66, 0.045, 2.30, M.felt,
+    {x:0,y:1.975,z:0},
+    {x:0,y:6.0,z:0});
+
+  // Four separate rails with clear outer corners.
+  B(5.38, 0.24, 0.31, M.body,
+    {x:0,y:2.12,z:-1.34},
+    {x:-4.8,y:4.5,z:-3.0});
+
+  B(5.38, 0.24, 0.31, M.body,
+    {x:0,y:2.12,z:1.34},
+    {x:4.8,y:4.5,z:3.0});
+
+  B(0.31, 0.24, 2.48, M.body,
+    {x:-2.53,y:2.12,z:0},
+    {x:-4.8,y:4.2,z:0});
+
+  B(0.31, 0.24, 2.48, M.body,
+    {x:2.53,y:2.12,z:0},
+    {x:4.8,y:4.2,z:0});
+
+  // Fine gold edging.
+  B(5.28, 0.028, 0.035, M.gold,
+    {x:0,y:2.25,z:-1.34},
+    {x:-3.8,y:5.0,z:-3.0});
+
+  B(5.28, 0.028, 0.035, M.gold,
+    {x:0,y:2.25,z:1.34},
+    {x:3.8,y:5.0,z:3.0});
+
+  B(0.035, 0.028, 2.48, M.gold,
+    {x:-2.53,y:2.25,z:0},
+    {x:-4.8,y:4.4,z:0});
+
+  B(0.035, 0.028, 2.48, M.gold,
+    {x:2.53,y:2.25,z:0},
+    {x:4.8,y:4.4,z:0});
+
+  // Purple underlighting.
+  B(4.9, 0.025, 0.025, M.neon,
+    {x:0,y:1.98,z:-1.16},
+    {x:-3.2,y:4.8,z:-2.4});
+
+  B(4.9, 0.025, 0.025, M.neon,
+    {x:0,y:1.98,z:1.16},
+    {x:3.2,y:4.8,z:2.4});
+
+  // Pocket holes sit on the playing surface.
+  const pockets = [
+    [-2.34, -1.14], [0, -1.14], [2.34, -1.14],
+    [-2.34,  1.14], [0,  1.14], [2.34,  1.14]
+  ];
+
+  pockets.forEach(function (p, i) {
+    const x = p[0], z = p[1];
+
+    addPart(
+      new T.CylinderGeometry(0.115, 0.115, 0.025, 24),
+      M.hole,
+      {x:x,y:2.005,z:z},
+      {x:x*1.3,y:3.4+i*0.2,z:z*1.4}
+    );
+
+    addPart(
+      new T.TorusGeometry(0.115, 0.018, 8, 24),
+      M.gold,
+      {x:x,y:2.02,z:z},
+      {x:x*1.3,y:3.7+i*0.2,z:z*1.4},
+      {x:Math.PI/2,y:0,z:0}
+    );
+  });
+
+  // Billiard balls.
+  const colors = [0xf0e4cc, 0xb88d37, 0x51207d, 0x8e233b, 0x18151d];
+
+  colors.forEach(function (color, i) {
+    const mat = new T.MeshStandardMaterial({
+      color: color,
+      roughness: 0.22,
+      metalness: 0.22
+    });
+
+    addPart(
+      new T.SphereGeometry(0.073, 20, 16),
+      mat,
+      {
+        x:-0.35+(i%3)*0.18,
+        y:2.06,
+        z:-0.15+Math.floor(i/3)*0.18
+      },
+      {
+        x:-3.2+i*1.2,
+        y:4.2+(i%2)*0.6,
+        z:2.8-i*0.9
+      }
+    );
+  });
+
+  // Black ground.
+  const floor = new T.Mesh(
+    new T.PlaneGeometry(200, 200),
+    new T.MeshBasicMaterial({color:0x000000})
+  );
+  floor.rotation.x = -Math.PI/2;
+  floor.position.y = -0.06;
+  scene.add(floor);
+
+  function smooth(t) {
+    return t*t*(3-2*t);
+  }
+
+  function progress() {
+    const rect = root.getBoundingClientRect();
+    const range = root.offsetHeight - window.innerHeight;
+    if (range <= 0) return 1;
+    return Math.max(0, Math.min(1, -rect.top / range));
+  }
+
+  function resize() {
+    const stage = root.querySelector(".pl-stage");
+    const width = root.clientWidth;
+    const height = stage.clientHeight;
+
+    renderer.setSize(width, height, false);
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+  }
+
+  let current = 0;
+  let target = 0;
+
+  function animate() {
+    requestAnimationFrame(animate);
+
+    target = progress();
+    current += (target - current) * 0.075;
+
+    const e = smooth(current);
+
+    parts.forEach(function (item) {
+      item.mesh.position.lerpVectors(item.spread, item.home, e);
+
+      item.mesh.rotation.x = item.initialRotation.x +
+        (item.finalRotation.x - item.initialRotation.x) * e;
+
+      item.mesh.rotation.y = item.initialRotation.y +
+        (item.finalRotation.y - item.initialRotation.y) * e;
+
+      item.mesh.rotation.z = item.initialRotation.z +
+        (item.finalRotation.z - item.initialRotation.z) * e;
+    });
+
+    // Keep all four corners inside the camera frame.
+    camera.position.set(12.5, 10.5 - e * 0.2, 15.5);
+    camera.lookAt(0, 1.0, 0);
+
+    table.rotation.y = (0.5 - e) * 0.06;
+
+    if (bar) bar.style.width = (current * 100) + "%";
+
+    renderer.render(scene, camera);
+  }
+
+  window.addEventListener("resize", resize);
+  resize();
+  animate();
+})();
+</script>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
