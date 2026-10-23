@@ -242,6 +242,304 @@ footer {
   box-shadow: 0 5px 20px rgba(0,0,0,.5);
 }
 
+<div id="paradise-3d">
+  <div class="p3d-heading">
+    <div class="p3d-logo">P</div>
+    <div>
+      <div class="p3d-name">PARADISE</div>
+      <div class="p3d-sub">LUXURY BILLIARDS</div>
+    </div>
+  </div>
+
+  <div id="p3d-view">
+    <div class="p3d-loading">PARADISE · 3D EXPERIENCE</div>
+  </div>
+
+  <div class="p3d-controls">
+    <button id="p3d-left" type="button">↶</button>
+    <button id="p3d-home" type="button">RESET VIEW</button>
+    <button id="p3d-right" type="button">↷</button>
+  </div>
+  <div class="p3d-hint">DRAG TO ROTATE · SCROLL TO ZOOM</div>
+</div>
+
+<style>
+#paradise-3d {
+  position:relative;
+  width:100%;
+  overflow:hidden;
+  background:radial-gradient(ellipse at 50% 40%,#29251e 0%,#101010 48%,#050505 100%);
+  border:1px solid #8b7448;
+  border-radius:14px;
+  color:#d8c18c;
+  font-family:Arial,sans-serif;
+}
+#paradise-3d * { box-sizing:border-box; }
+#paradise-3d .p3d-heading {
+  position:absolute;z-index:2;top:20px;left:22px;
+  display:flex;align-items:center;gap:12px;pointer-events:none;
+}
+#paradise-3d .p3d-logo {
+  width:42px;height:42px;border:1px solid #c6a45b;
+  display:flex;align-items:center;justify-content:center;
+  font-family:Georgia,serif;font-size:27px;color:#d7b76b;
+}
+#paradise-3d .p3d-name {font-size:20px;letter-spacing:5px;font-weight:600;}
+#paradise-3d .p3d-sub {font-size:9px;letter-spacing:3px;margin-top:5px;color:#b5a17b;}
+#p3d-view {width:100%;height:610px;position:relative;touch-action:none;}
+#p3d-view canvas {display:block;width:100%;height:100%;outline:none;}
+#p3d-view .p3d-loading {
+  position:absolute;top:50%;left:0;width:100%;text-align:center;
+  font-size:11px;letter-spacing:4px;color:#d7b76b;
+}
+#paradise-3d .p3d-controls {
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  padding:0 12px 12px;position:relative;z-index:3;
+}
+#paradise-3d .p3d-controls button {
+  background:#171511;color:#d7b76b;border:1px solid #8b7448;
+  padding:10px 18px;cursor:pointer;font-size:12px;letter-spacing:1px;
+  border-radius:4px;
+}
+#paradise-3d .p3d-controls button:hover {background:#342a18;}
+#paradise-3d .p3d-hint {
+  text-align:center;font-size:9px;letter-spacing:2px;
+  color:#95866a;padding:0 10px 18px;
+}
+@media(max-width:600px) {
+  #p3d-view {height:430px;}
+  #paradise-3d .p3d-heading {top:14px;left:14px;}
+  #paradise-3d .p3d-name {font-size:16px;}
+  #paradise-3d .p3d-logo {width:34px;height:34px;}
+  #paradise-3d .p3d-controls button {padding:10px 12px;}
+}
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+<script>
+(function () {
+  const root = document.getElementById('paradise-3d');
+  const view = document.getElementById('p3d-view');
+  if (!root || !view || root.dataset.started) return;
+  root.dataset.started = '1';
+
+  function start() {
+    if (!window.THREE || !THREE.OrbitControls) {
+      view.innerHTML = '<div class="p3d-loading">3D LIBRARY COULD NOT LOAD</div>';
+      return;
+    }
+
+    view.innerHTML = '';
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x100f0c);
+
+    const camera = new THREE.PerspectiveCamera(
+      36, view.clientWidth / view.clientHeight, 0.1, 100
+    );
+    camera.position.set(7.2, 5.5, 8.5);
+
+    const renderer = new THREE.WebGLRenderer({
+      antialias: true,
+      alpha: false
+    });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setSize(view.clientWidth, view.clientHeight);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.outputEncoding = THREE.sRGBEncoding;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.15;
+    view.appendChild(renderer.domElement);
+
+    scene.add(new THREE.HemisphereLight(0xffe8c0, 0x29251f, 1.5));
+
+    const key = new THREE.DirectionalLight(0xffe1a1, 2.5);
+    key.position.set(4, 9, 5);
+    key.castShadow = true;
+    key.shadow.mapSize.set(1024, 1024);
+    scene.add(key);
+
+    const fill = new THREE.DirectionalLight(0xffffff, 1.1);
+    fill.position.set(-5, 5, -4);
+    scene.add(fill);
+
+    const gold = new THREE.MeshStandardMaterial({
+      color: 0xb99a55, metalness: 0.75, roughness: 0.28
+    });
+    const black = new THREE.MeshStandardMaterial({
+      color: 0x171615, metalness: 0.35, roughness: 0.28
+    });
+    const darkWood = new THREE.MeshStandardMaterial({
+      color: 0x241b14, metalness: 0.15, roughness: 0.3
+    });
+    const cloth = new THREE.MeshStandardMaterial({
+      color: 0x087642, roughness: 0.92
+    });
+    const pocketMat = new THREE.MeshStandardMaterial({
+      color: 0x030303, roughness: 1
+    });
+
+    function box(w,h,d,mat,x,y,z) {
+      const mesh = new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);
+      mesh.position.set(x,y,z);
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+      scene.add(mesh);
+      return mesh;
+    }
+
+    function cylinder(radiusTop,radiusBottom,height,mat,x,y,z) {
+      const mesh = new THREE.Mesh(
+        new THREE.CylinderGeometry(radiusTop,radiusBottom,height,32),mat
+      );
+      mesh.position.set(x,y,z);
+      mesh.castShadow = true;
+      scene.add(mesh);
+      return mesh;
+    }
+
+    // Main table body
+    box(5.1,0.24,3.0,black,0,1.05,0);
+    box(4.94,0.12,2.84,gold,0,1.19,0);
+    box(4.78,0.12,2.68,darkWood,0,1.28,0);
+    box(4.52,0.035,2.42,cloth,0,1.365,0);
+
+    // Raised rails around the playing surface
+    box(4.84,0.16,0.16,black,0,1.43,-1.32);
+    box(4.84,0.16,0.16,black,0,1.43,1.32);
+    box(0.16,0.16,2.5,black,-2.42,1.43,0);
+    box(0.16,0.16,2.5,black,2.42,1.43,0);
+
+    // Golden rail inlays
+    box(4.65,0.025,0.025,gold,0,1.515,-1.32);
+    box(4.65,0.025,0.025,gold,0,1.515,1.32);
+    box(0.025,0.025,2.35,gold,-2.42,1.515,0);
+    box(0.025,0.025,2.35,gold,2.42,1.515,0);
+
+    // Four sculpted dark legs with gold collars and feet
+    [[-2.05,-1.05],[2.05,-1.05],[-2.05,1.05],[2.05,1.05]]
+      .forEach(function(p) {
+        const x=p[0], z=p[1];
+        box(0.43,0.13,0.43,gold,x,0.88,z);
+        box(0.32,0.82,0.32,black,x,0.43,z);
+        box(0.36,0.10,0.36,gold,x,0.15,z);
+        box(0.40,0.08,0.40,black,x,0.07,z);
+      });
+
+    // Six dark pocket openings
+    const pockets = [
+      [-2.28,-1.19],[2.28,-1.19],
+      [-2.28,1.19],[2.28,1.19],
+      [0,-1.22],[0,1.22]
+    ];
+    pockets.forEach(function(p) {
+      cylinder(0.14,0.14,0.025,pocketMat,p[0],1.397,p[1]);
+    });
+
+    // Billiard balls
+    const ballColors = [
+      0xffffff,0xffc928,0x1766dd,0xe63832,
+      0x8b36b8,0xff7b21,0x168f53,0x222222
+    ];
+    const ballPositions = [
+      [-0.5,1.45,0],[-0.2,1.45,0.08],[0.1,1.45,-0.08],
+      [0.4,1.45,0.07],[0.7,1.45,-0.04],
+      [0.1,1.45,0.25],[-0.2,1.45,-0.24]
+    ];
+    ballPositions.forEach(function(p,i) {
+      const material = new THREE.MeshStandardMaterial({
+        color:ballColors[i % ballColors.length],
+        roughness:0.2, metalness:0.03
+      });
+      const ball = new THREE.Mesh(
+        new THREE.SphereGeometry(0.075,24,16),material
+      );
+      ball.position.set(p[0],p[1],p[2]);
+      ball.castShadow = true;
+      scene.add(ball);
+    });
+
+    // Floor
+    const floor = new THREE.Mesh(
+      new THREE.PlaneGeometry(200,200),
+      new THREE.MeshStandardMaterial({color:0x11100e,roughness:0.8})
+    );
+    floor.rotation.x = -Math.PI/2;
+    floor.position.y = -0.02;
+    floor.receiveShadow = true;
+    scene.add(floor);
+
+    const controls = new THREE.OrbitControls(camera,renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.06;
+    controls.target.set(0,0.8,0);
+    controls.minDistance = 4.5;
+    controls.maxDistance = 15;
+    controls.maxPolarAngle = Math.PI * 0.49;
+    controls.update();
+
+    document.getElementById('p3d-home').addEventListener('click',function(){
+      camera.position.set(7.2,5.5,8.5);
+      controls.target.set(0,0.8,0);
+      controls.update();
+    });
+    document.getElementById('p3d-left').addEventListener('click',function(){
+      camera.position.applyAxisAngle(
+        new THREE.Vector3(0,1,0),Math.PI/6
+      );
+      controls.update();
+    });
+    document.getElementById('p3d-right').addEventListener('click',function(){
+      camera.position.applyAxisAngle(
+        new THREE.Vector3(0,1,0),-Math.PI/6
+      );
+      controls.update();
+    });
+
+    function resize() {
+      const w = view.clientWidth;
+      const h = view.clientHeight;
+      if (!w || !h) return;
+      camera.aspect = w/h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w,h);
+    }
+    if (window.ResizeObserver) {
+      new ResizeObserver(resize).observe(view);
+    } else {
+      window.addEventListener('resize',resize);
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+      controls.update();
+      renderer.render(scene,camera);
+    }
+    animate();
+  }
+
+  if (window.THREE && THREE.OrbitControls) {
+    start();
+  } else {
+    const check = setInterval(function() {
+      if (window.THREE && THREE.OrbitControls) {
+        clearInterval(check);
+        start();
+      }
+    },100);
+    setTimeout(function(){
+      clearInterval(check);
+      if (!view.querySelector('canvas')) {
+        view.innerHTML = '<div class="p3d-loading">PLEASE RELOAD THE PAGE</div>';
+      }
+    },12000);
+  }
+})();
+</script>
+
 /* THREE-DIMENSIONAL SCROLL ANIMATION */
 
 #paradise-lux {
