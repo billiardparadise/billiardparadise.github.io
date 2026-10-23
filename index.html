@@ -900,3 +900,300 @@ footer {
 
 </body>
 </html>
+<section id="paradise-impact">
+  <div class="impact-stage">
+
+    <div class="impact-copy">
+      <span>THE ART OF PRECISION</span>
+      <h2>BILLIARD PARADISE</h2>
+      <p>PRECISION · POWER · PERFECTION</p>
+    </div>
+
+    <div class="impact-ball">
+      <div class="ball-shine"></div>
+      <div class="ball-number">8</div>
+    </div>
+
+    <div class="impact-cue">
+      <div class="cue-butt"></div>
+      <div class="cue-shaft"></div>
+      <div class="cue-tip"></div>
+    </div>
+
+    <div class="impact-caption">SCROLL TO EXPERIENCE</div>
+
+  </div>
+</section>
+
+<style>
+#paradise-impact {
+  position: relative;
+  width: 100%;
+  height: 220vh;
+  background: #030304;
+  color: #e4c783;
+  font-family: Arial, sans-serif;
+  overflow: clip;
+  isolation: isolate;
+}
+
+#paradise-impact * {
+  box-sizing: border-box;
+}
+
+#paradise-impact .impact-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  min-height: 480px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(ellipse at center, #21152b 0%, #0b090e 48%, #000 100%);
+}
+
+#paradise-impact .impact-copy {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding: 20px;
+  text-align: center;
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+#paradise-impact .impact-copy span {
+  display: block;
+  color: #c39b59;
+  font-size: 11px;
+  letter-spacing: 5px;
+  margin-bottom: 20px;
+}
+
+#paradise-impact .impact-copy h2 {
+  margin: 0;
+  color: #f1d69a;
+  font-family: Georgia, serif;
+  font-size: clamp(27px, 6vw, 76px);
+  font-weight: 400;
+  letter-spacing: clamp(1px, .5vw, 5px);
+  line-height: 1.2;
+  white-space: nowrap;
+  text-shadow: 0 0 24px #c39b5940;
+}
+
+#paradise-impact .impact-copy p {
+  margin-top: 22px;
+  color: #e5e0e9;
+  font-size: 10px;
+  letter-spacing: 4px;
+}
+
+#paradise-impact .impact-ball {
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  top: 50%;
+  width: clamp(110px, 17vw, 175px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 30% 24%,
+    #85858a 0%,
+    #38383d 12%,
+    #101013 39%,
+    #000 72%,
+    #242029 90%,
+    #050505 100%
+  );
+  box-shadow:
+    inset -15px -18px 30px #000,
+    inset 5px 5px 15px #ffffff20,
+    0 0 35px #a77bd333;
+  transform: translate(-50%, -50%);
+  will-change: transform;
+}
+
+#paradise-impact .ball-shine {
+  position: absolute;
+  top: 13%;
+  left: 20%;
+  width: 35%;
+  height: 13%;
+  border-radius: 50%;
+  background: #fff4;
+  filter: blur(7px);
+  transform: rotate(-35deg);
+}
+
+#paradise-impact .ball-number {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 29%;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #f0ede5;
+  color: #090909;
+  font-family: Georgia, serif;
+  font-size: 20px;
+  font-weight: bold;
+  transform: translate(-50%, -50%);
+}
+
+#paradise-impact .impact-cue {
+  position: absolute;
+  z-index: 5;
+  left: -60%;
+  top: 50%;
+  width: 55%;
+  height: 10px;
+  display: flex;
+  align-items: center;
+  transform: translateY(-50%);
+  will-change: left, opacity;
+}
+
+#paradise-impact .cue-butt {
+  width: 15%;
+  height: 100%;
+  background: linear-gradient(90deg, #39220d, #d5a45c, #21140c);
+  border-radius: 5px 0 0 5px;
+}
+
+#paradise-impact .cue-shaft {
+  flex: 1;
+  height: 55%;
+  background: linear-gradient(180deg, #f0dfb4, #967143, #d9bc80);
+}
+
+#paradise-impact .cue-tip {
+  width: 9px;
+  height: 70%;
+  background: #ad80d5;
+  border-radius: 2px;
+}
+
+#paradise-impact .impact-caption {
+  position: absolute;
+  z-index: 6;
+  bottom: 7%;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  color: #d8bb7b;
+  font-size: 9px;
+  letter-spacing: 4px;
+}
+
+@media (max-width: 600px) {
+  #paradise-impact {
+    height: 190vh;
+  }
+
+  #paradise-impact .impact-copy {
+    padding: 10px;
+  }
+
+  #paradise-impact .impact-copy h2 {
+    font-size: clamp(23px, 6.5vw, 36px);
+    letter-spacing: 0;
+  }
+
+  #paradise-impact .impact-copy span {
+    font-size: 9px;
+    letter-spacing: 3px;
+  }
+
+  #paradise-impact .impact-copy p {
+    font-size: 8px;
+    letter-spacing: 2px;
+  }
+
+  #paradise-impact .impact-ball {
+    width: 120px;
+  }
+
+  #paradise-impact .impact-cue {
+    height: 7px;
+  }
+}
+</style>
+
+<script>
+(function () {
+  const section = document.getElementById("paradise-impact");
+  if (!section || section.dataset.ready) return;
+
+  section.dataset.ready = "true";
+
+  const ball = section.querySelector(".impact-ball");
+  const cue = section.querySelector(".impact-cue");
+  const copy = section.querySelector(".impact-copy");
+  const caption = section.querySelector(".impact-caption");
+
+  let ticking = false;
+
+  function updateAnimation() {
+    const rect = section.getBoundingClientRect();
+    const distance = section.offsetHeight - window.innerHeight;
+
+    const progress = Math.max(
+      0,
+      Math.min(1, -rect.top / Math.max(1, distance))
+    );
+
+    // توپ ابتدا بزرگ می‌شود، سپس به سمت راست حرکت می‌کند
+    const scale = 0.75 + Math.min(progress / 0.45, 1) * 0.75;
+    const moveX = progress < 0.43
+      ? 0
+      : Math.min(1, (progress - 0.43) / 0.25) * 115;
+
+    // ضربه چوب به توپ
+    let cueX;
+    if (progress < 0.28) {
+      cueX = -60;
+    } else if (progress < 0.39) {
+      cueX = -60 + ((progress - 0.28) / 0.11) * 57;
+    } else {
+      cueX = -3 + ((progress - 0.39) / 0.61) * 75;
+    }
+
+    const cueOpacity = progress < 0.42
+      ? 1
+      : Math.max(0, 1 - (progress - 0.42) * 7);
+
+    ball.style.transform =
+      `translate(calc(-50% + ${moveX}vw), -50%) scale(${scale})`;
+
+    cue.style.left = cueX + "%";
+    cue.style.opacity = cueOpacity;
+
+    // نوشته از ابتدا خواناست و هنگام حرکت توپ واضح باقی می‌ماند
+    copy.style.opacity = "1";
+    copy.style.filter = "none";
+
+    caption.style.opacity = Math.max(0, 1 - progress * 3);
+  }
+
+  function onScroll() {
+    if (ticking) return;
+
+    ticking = true;
+
+    requestAnimationFrame(function () {
+      updateAnimation();
+      ticking = false;
+    });
+  }
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll);
+
+  updateAnimation();
+})();
+</script>
